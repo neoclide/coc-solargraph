@@ -1,6 +1,6 @@
 {
   "name": "coc-solargraph",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "solargraph extension for coc",
   "main": "lib/index.js",
   "publisher": "chemzqm",
