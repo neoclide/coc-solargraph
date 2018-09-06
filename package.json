@@ -1,0 +1,181 @@
+{
+  "name": "coc-solargraph",
+  "version": "1.0.0",
+  "description": "solargraph extension for coc",
+  "main": "lib/index.js",
+  "publisher": "chemzqm",
+  "engines": {
+    "coc": "^0.0.15"
+  },
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "tsc -p tsconfig.json",
+    "prepare": "yarn clean && yarn build"
+  },
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Solargraph",
+      "properties": {
+        "solargraph.enable": {
+          "type": "boolean",
+          "default": true
+        },
+        "solargraph.filetypes": {
+          "type": "array",
+          "default": [
+            "ruby"
+          ]
+        },
+        "solargraph.trace.server": {
+          "type": "string",
+          "default": "off",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ]
+        },
+        "solargraph.commandPath": {
+          "type": "string",
+          "default": "solargraph",
+          "description": "Path to the solargraph command.  Set this to an absolute path to select from multiple installed Ruby versions."
+        },
+        "solargraph.useBundler": {
+          "type": "boolean",
+          "description": "Use `bundle exec` to run solargraph. (If this is true, the solargraph.commandPath setting is ignored.)",
+          "default": false
+        },
+        "solargraph.bundlerPath": {
+          "type": "string",
+          "description": "Path to the bundle executable, defaults to 'bundle'",
+          "default": "bundle"
+        },
+        "solargraph.checkGemVersion": {
+          "type": "boolean",
+          "description": "Automatically check if a new version of the Solargraph gem is available.",
+          "default": true,
+          "enum": [
+            true,
+            false
+          ]
+        },
+        "solargraph.completion": {
+          "type": [
+            "boolean"
+          ],
+          "description": "Enable completion",
+          "default": true,
+          "enum": [
+            true,
+            false
+          ]
+        },
+        "solargraph.hover": {
+          "type": [
+            "boolean"
+          ],
+          "description": "Enable hover",
+          "default": true,
+          "enum": [
+            true,
+            false
+          ]
+        },
+        "solargraph.diagnostics": {
+          "type": [
+            "boolean"
+          ],
+          "description": "Enable diagnostics",
+          "default": false,
+          "enum": [
+            true,
+            false
+          ]
+        },
+        "solargraph.autoformat": {
+          "type": [
+            "boolean"
+          ],
+          "description": "Enable automatic formatting while typing (WARNING: experimental)",
+          "default": false,
+          "enum": [
+            true,
+            false
+          ]
+        },
+        "solargraph.formatting": {
+          "type": [
+            "boolean"
+          ],
+          "description": "Enable document formatting",
+          "enum": [
+            true,
+            false
+          ],
+          "default": false
+        },
+        "solargraph.symbols": {
+          "type": [
+            "boolean"
+          ],
+          "description": "Enable symbols",
+          "enum": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        "solargraph.definitions": {
+          "type": [
+            "boolean"
+          ],
+          "description": "Enable definitions (go to, etc.)",
+          "enum": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        "solargraph.rename": {
+          "type": [
+            "boolean"
+          ],
+          "description": "Enable symbol renaming",
+          "enum": [
+            true,
+            false
+          ],
+          "default": true
+        },
+        "solargraph.references": {
+          "type": [
+            "boolean"
+          ],
+          "description": "Enable finding references",
+          "enum": [
+            true,
+            false
+          ],
+          "default": true
+        }
+      }
+    }
+  },
+  "author": "chemzqm@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@chemzqm/tsconfig": "^0.0.3",
+    "@chemzqm/tslint-config": "^1.0.17",
+    "@types/node": "^10.9.4",
+    "coc.nvim": "^0.0.15",
+    "rimraf": "^2.6.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "tslib": "^1.9.3",
+    "vscode-languageserver-protocol": "^3.12.0",
+    "which": "^1.3.1"
+  }
+}
