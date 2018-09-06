@@ -1,5 +1,4 @@
 import { workspace } from 'coc.nvim'
-import { Configuration } from './configuration'
 
 export function verifyGemIsCurrent(): void {
   workspace.runCommand('gem outdated').then(res => {
@@ -13,7 +12,7 @@ export function verifyGemIsCurrent(): void {
   })
 }
 
-export function downloadCore(configuration: Configuration): void {
+export function downloadCore(configuration: any): void {
   let cmd = getCommands(configuration, 'download-core')
   workspace.nvim.call('coc#util#open_terminal', [{
     id: 0,
@@ -21,7 +20,7 @@ export function downloadCore(configuration: Configuration): void {
   }], true)
 }
 
-export function createConfig(configuration: Configuration): void {
+export function createConfig(configuration: any): void {
   let cmd = getCommands(configuration, 'download-core')
   workspace.runCommand(cmd).then(res => {
     if (res) {
@@ -32,7 +31,7 @@ export function createConfig(configuration: Configuration): void {
   })
 }
 
-function getCommands(configuration: Configuration, ...args: string[]): string {
+function getCommands(configuration: any, ...args: string[]): string {
   let cmds = []
   if (configuration.useBundler) {
     cmds.push(configuration.bundlerPath, 'exec', 'solargraph')

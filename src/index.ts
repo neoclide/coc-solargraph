@@ -1,5 +1,4 @@
 import { commands, ExtensionContext, LanguageClient, workspace, services } from 'coc.nvim'
-import { Configuration } from './configuration'
 import { Disposable } from 'vscode-languageserver-protocol'
 import { makeLanguageClient } from './language-client'
 import { createConfig, downloadCore, verifyGemIsCurrent } from './util'
@@ -7,7 +6,7 @@ import which from 'which'
 
 export async function activate(context: ExtensionContext): Promise<void> {
   let { subscriptions } = context
-  const config = workspace.getConfiguration().get('solargraph') as any
+  const config = workspace.getConfiguration().get('solargraph', {}) as any
   const enable = config.enable
   if (enable === false) return
   let command = config.commandPath || 'solargraph'
@@ -18,15 +17,13 @@ export async function activate(context: ExtensionContext): Promise<void> {
     return
   }
 
-  let applyConfiguration = (config: Configuration) => {
-    config.commandPath = config.commandPath || 'solargraph'
-    config.useBundler = config.useBundler || false
-    config.bundlerPath = config.bundlerPath || 'bundle'
-    config.withSnippets = config.withSnippets || false
-    config.workspace = workspace.root
-  }
-  let solargraphConfiguration = new Configuration()
-  applyConfiguration(solargraphConfiguration)
+  let solargraphConfiguration = Object.assign({
+    commandPath: 'solargraph',
+    useBundler: false,
+    bundlerPath: 'bundle',
+    withSnippets: true,
+    workspace: workspace.root
+  }, config)
 
   const selector = config.filetypes || ['ruby']
   let client = makeLanguageClient(selector, solargraphConfiguration)
@@ -44,7 +41,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   })
 }
 
-function registerCommand(client: LanguageClient, config: Configuration, subscriptions: Disposable[]): void {
+function registerCommand(client: LanguageClient, config: any, subscriptions: Disposable[]): void {
   subscriptions.push(
     commands.registerCommand('solargraph.buildGemDocs', () => {
       client.sendNotification('$/solargraph/documentGems', { rebuild: false })

@@ -1,9 +1,8 @@
 import { LanguageClient, LanguageClientOptions, ServerOptions, workspace } from 'coc.nvim'
-import { Configuration } from './configuration'
 
 export function makeLanguageClient(
   languageIds: string[],
-  configurations: Configuration
+  configurations: any
 ): LanguageClient {
 
   // Options to control the language client
