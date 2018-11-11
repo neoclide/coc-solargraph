@@ -1,4 +1,6 @@
-import { LanguageClient, LanguageClientOptions, ServerOptions, workspace } from 'coc.nvim'
+import { LanguageClient, LanguageClientOptions, ServerOptions, workspace, ProvideCompletionItemsSignature, ProviderResult } from 'coc.nvim'
+import { TextDocument, Position, CompletionItem, CompletionList } from 'vscode-languageserver-types'
+import { CompletionContext, CancellationToken } from 'vscode-languageserver-protocol'
 
 export function makeLanguageClient(
   languageIds: string[],
@@ -16,6 +18,31 @@ export function makeLanguageClient(
     },
     initializationOptions: {
       enablePages: false
+    },
+    middleware: {
+      // fix completeItem
+      provideCompletionItem: (
+        document: TextDocument,
+        position: Position,
+        context: CompletionContext,
+        token: CancellationToken,
+        next: ProvideCompletionItemsSignature
+      ): ProviderResult<CompletionItem[] | CompletionList> => {
+        return Promise.resolve(next(document, position, context, token)).then((res: CompletionItem[] | CompletionList) => {
+          let doc = workspace.getDocument(document.uri)
+          if (!doc) return []
+          let items: CompletionItem[] = res.hasOwnProperty('isIncomplete') ? (res as CompletionList).items : res as CompletionItem[]
+          let result: any = {
+            isIncomplete: false,
+            items
+          }
+          if (items.length
+            && items.every(o => o.label.startsWith(':'))) {
+            result.startcol = doc.fixStartcol(position, [':'])
+          }
+          return result
+        })
+      }
     }
   }
   let serverOptions: ServerOptions = {
