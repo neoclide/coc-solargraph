@@ -1,12 +1,17 @@
 {
   "name": "coc-solargraph",
-  "version": "1.0.3",
-  "description": "solargraph extension for coc",
+  "version": "1.0.4",
+  "description": "Ruby languageserver extension for coc.nvim, using solargraph",
   "main": "lib/index.js",
   "publisher": "chemzqm",
   "engines": {
     "coc": "^0.0.15"
   },
+  "keywords": [
+    "coc.nvim",
+    "solargraph",
+    "ruby"
+  ],
   "scripts": {
     "clean": "rimraf lib",
     "build": "tsc -p tsconfig.json",
