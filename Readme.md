@@ -19,7 +19,7 @@ Coc support all features of [solargraph](https://github.com/castwide/solargraph)
 
 ## Configuration options
 
-* `solargraph.enable` set to `false` to disable wxml language server.
+* `solargraph.enable` set to `false` to disable Solargraph language server.
 * `solargraph.trace.server` trace LSP traffic in output channel.
 * `solargraph.filetypes` default to `['ruby']`.
 * `solargraph.commandPath` the absolute path of `solargraph` command, find from
