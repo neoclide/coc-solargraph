@@ -6,7 +6,7 @@ import which from 'which'
 
 export async function activate(context: ExtensionContext): Promise<void> {
   let { subscriptions } = context
-  const config = workspace.getConfiguration().get('solargraph', {}) as any
+  const config = workspace.getConfiguration().get<any>('solargraph', {}) as any
   const enable = config.enable
   if (enable === false) return
   let command = config.commandPath || 'solargraph'

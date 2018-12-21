@@ -47,7 +47,10 @@ export function makeLanguageClient(
   }
   let serverOptions: ServerOptions = {
     command: configurations.commandPath || ' solargraph',
-    args: ['stdio']
+    args: ['stdio'],
+    options: {
+      env: configurations.env || process.env
+    }
   }
 
   return new LanguageClient(

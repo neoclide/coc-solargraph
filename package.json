@@ -49,6 +49,11 @@
           "default": "solargraph",
           "description": "Path to the solargraph command.  Set this to an absolute path to select from multiple installed Ruby versions."
         },
+        "solargraph.env": {
+          "type": "object",
+          "default": null,
+          "description": "Environment variables for solargraph process, use process.env by default."
+        },
         "solargraph.useBundler": {
           "type": "boolean",
           "description": "Use `bundle exec` to run solargraph. (If this is true, the solargraph.commandPath setting is ignored.)",
