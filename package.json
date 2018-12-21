@@ -54,6 +54,11 @@
           "default": null,
           "description": "Environment variables for solargraph process, use process.env by default."
         },
+        "solargraph.shell": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use shell for solargraph process"
+        },
         "solargraph.useBundler": {
           "type": "boolean",
           "description": "Use `bundle exec` to run solargraph. (If this is true, the solargraph.commandPath setting is ignored.)",

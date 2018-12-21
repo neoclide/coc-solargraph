@@ -49,6 +49,7 @@ export function makeLanguageClient(
     command: configurations.commandPath || ' solargraph',
     args: ['stdio'],
     options: {
+      shell: !!configurations.shell,
       env: { ...process.env, ...configurations.env }
     }
   }
