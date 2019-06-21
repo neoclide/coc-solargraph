@@ -20,13 +20,13 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 
   const selector = config.filetypes || ['ruby']
-  let applyConfiguration = (config: solargraph.Configuration) => {
-    config.commandPath = config.commandPath || 'solargraph'
-    config.useBundler = config.useBundler || false
-    config.bundlerPath = config.bundlerPath || 'bundle'
-    config.viewsPath = context.extensionPath + '/views'
-    config.withSnippets = config.withSnippets || false
-    config.workspace = workspace.rootPath || null
+  let applyConfiguration = (_config: solargraph.Configuration) => {
+    _config.commandPath = config.commandPath || 'solargraph'
+    _config.useBundler = config.useBundler || false
+    _config.bundlerPath = config.bundlerPath || 'bundle'
+    _config.viewsPath = context.extensionPath + '/views'
+    _config.withSnippets = config.withSnippets || false
+    _config.workspace = workspace.rootPath || null
   }
   let solargraphConfiguration = new solargraph.Configuration()
   applyConfiguration(solargraphConfiguration)
