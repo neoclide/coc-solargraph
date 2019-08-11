@@ -4,22 +4,13 @@ import { makeLanguageClient } from './language-client'
 import { createConfig, downloadCore, verifyGemIsCurrent } from './util'
 import SolargraphDocumentProvider from './SolargraphDocumentProvider'
 import * as solargraph from 'solargraph-utils'
-import which from 'which'
 
 export async function activate(context: ExtensionContext): Promise<void> {
   let { subscriptions } = context
   const config = workspace.getConfiguration().get<any>('solargraph', {}) as any
   const enable = config.enable
   if (enable === false) return
-  let command = config.commandPath || 'solargraph'
-  try {
-    which.sync(command)
-  } catch (e) {
-    workspace.showMessage(`Solargraph command '${command}' not found!`, 'error')
-    return
-  }
 
-  const selector = config.filetypes || ['ruby']
   let applyConfiguration = (_config: solargraph.Configuration) => {
     _config.commandPath = config.commandPath || 'solargraph'
     _config.useBundler = config.useBundler || false

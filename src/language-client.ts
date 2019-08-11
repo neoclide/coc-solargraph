@@ -1,8 +1,8 @@
-import { Middleware, LanguageClient, LanguageClientOptions, ServerOptions, workspace, ProvideCompletionItemsSignature, ProviderResult } from 'coc.nvim'
-import { TextDocument, Position, CompletionItem, CompletionList } from 'vscode-languageserver-types'
-import { CompletionContext, CancellationToken, MarkedString } from 'vscode-languageserver-protocol'
-import * as solargraph from 'solargraph-utils'
+import { LanguageClient, LanguageClientOptions, Middleware, ProvideCompletionItemsSignature, ProviderResult, ServerOptions, workspace } from 'coc.nvim'
 import net from 'net'
+import * as solargraph from 'solargraph-utils'
+import { CancellationToken, CompletionContext } from 'vscode-languageserver-protocol'
+import { CompletionItem, CompletionList, Position, TextDocument } from 'vscode-languageserver-types'
 
 // export function makeLanguageClient(socketProvider: solargraph.SocketProvider): LanguageClient {
 export function makeLanguageClient(configuration: solargraph.Configuration): LanguageClient {
@@ -57,6 +57,10 @@ export function makeLanguageClient(configuration: solargraph.Configuration): Lan
       return () => {
         return new Promise(resolve => {
           let child = solargraph.commands.solargraphCommand(['stdio'], configuration)
+          child.on('error', err => {
+            // tslint:disable-next-line: no-console
+            console.error('Solargraph error:', err.message)
+          })
           child.stderr.on('data', (data: Buffer) => {
             // tslint:disable-next-line: no-console
             console.log(data.toString())
