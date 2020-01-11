@@ -47,6 +47,11 @@
           ],
           "description": "The type of transport to use."
         },
+        "solargraph.promptDownload": {
+          "type": "boolean",
+          "description": "Prompt for download solargraph gem when not found.",
+          "default": true
+        },
         "solargraph.externalServer": {
           "type": "object",
           "description": "The host and port to use for external transports. (Ignored for stdio and socket transports.)",

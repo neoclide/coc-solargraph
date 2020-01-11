@@ -30,6 +30,7 @@ This extension contributes the following settings:
 - `solargraph.useBundler`: Use `bundle exec` to run solargraph. (If this is true, `solargraph.commandPath` is ignored.)
 - `solargraph.bundlerPath`: Path to the bundle command.
 - `solargraph.checkGemVersion`: Check if a new version of the Solargraph gem is available. Default is true (recommended).
+- `solargraph.promptDownload`: Prompt for download solargraph gem when not found.
 - `solargraph.diagnostics`: Enable diagnostics reporting. See [Solargraph Tips](http://solargraph.org/tips) for diagnostics options.
 - `solargraph.completion`: Enable autocompletion.
 - `solargraph.hover`: Enable tips on hover.
