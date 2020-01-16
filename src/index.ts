@@ -35,7 +35,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     }).catch(err => {
       // tslint:disable-next-line: no-console
       console.log('Error starting Solargraph socket provider', err)
-      if (!config.get('promptDownload', true)) return
+      if (!config.promptDownload) return
       if (err.toString().includes('ENOENT') || err.toString().includes('command not found')) {
         // tslint:disable-next-line: no-floating-promises
         workspace.showPrompt('Solargraph gem not found. Run `gem install solargraph` or update your Gemfile., Install Now?').then(approved => {
