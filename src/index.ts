@@ -14,7 +14,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   let applyConfiguration = (_config: solargraph.Configuration) => {
     _config.commandPath = config.commandPath || 'solargraph'
     _config.useBundler = config.useBundler || false
-    _config.bundlerPath = config.bundlerPath || 'bundle'
+    _config.bundlerPath = config.bundlerPath?.replace('~', process.env.HOME) || 'bundle'
     _config.viewsPath = context.extensionPath + '/views'
     _config.withSnippets = config.withSnippets || false
     _config.workspace = workspace.rootPath || null
