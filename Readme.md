@@ -26,24 +26,28 @@ Coc.nvim support all features of [solargraph](https://github.com/castwide/solarg
 
 This extension contributes the following settings:
 
-- `solargraph.commandPath`: Path to the solargraph command. Set this to an absolute path to select from multiple installed Ruby versions.
-- `solargraph.useBundler`: Use `bundle exec` to run solargraph. (If this is true, `solargraph.commandPath` is ignored.)
-- `solargraph.bundlerPath`: Path to the bundle command.
-- `solargraph.checkGemVersion`: Check if a new version of the Solargraph gem is available. Default is true (recommended).
-- `solargraph.promptDownload`: Prompt for download solargraph gem when not found.
-- `solargraph.diagnostics`: Enable diagnostics reporting. See [Solargraph Tips](http://solargraph.org/tips) for diagnostics options.
-- `solargraph.completion`: Enable autocompletion.
-- `solargraph.hover`: Enable tips on hover.
-- `solargraph.autoformat`: Enable automatic formatting while typing.
-- `solargraph.formatting`: Enable document formatting. The gem currently uses RuboCop for formatting.
-- `solargraph.symbols`: Enable search for document and workspace symbols.
-- `solargraph.definitions`: Enable go-to-definition.
-- `solargraph.rename`: Enable symbol renaming.
-- `solargraph.references`: Enable finding references.
-- `solargraph.folding`: Enable folding ranges.
-- `solargraph.transport`: socket (default), stdio, or external. See [Transport Options](#transport-options) for more information.
-- `solargraph.externalServer`: The host and port for external transports. See [Transport Options](#transport-options) for more information.
-- `solargraph.logLevel`: The logging level. Options in ascending amount of detail are `warn`, `info`, and `debug`. The default is `warn`.
+- `solargraph.trace.server`: default: `"off"`
+  Valid options: ["off","messages","verbose"]
+- `solargraph.transport`: The type of transport to use., default: `"socket"`
+  Valid options: ["socket","stdio","external"]
+- `solargraph.promptDownload`: Prompt for download solargraph gem when not found., default: `true`
+- `solargraph.externalServer`: The host and port to use for external transports. (Ignored for stdio and socket transports.), default: `{"host":"localhost","port":7658}`
+- `solargraph.commandPath`: Path to the solargraph command. Set this to an absolute path to select from multiple installed Ruby versions., default: `"solargraph"`
+- `solargraph.useBundler`: Use `bundle exec` to run solargraph. (If this is true, the solargraph.commandPath setting is ignored.), default: `false`
+- `solargraph.bundlerPath`: Path to the bundle executable, defaults to 'bundle', default: `"bundle"`
+- `solargraph.checkGemVersion`: Automatically check if a new version of the Solargraph gem is available., default: `true`
+- `solargraph.completion`: Enable completion, default: `true`
+- `solargraph.hover`: Enable hover, default: `true`
+- `solargraph.diagnostics`: Enable diagnostics, default: `false`
+- `solargraph.autoformat`: Enable automatic formatting while typing (WARNING: experimental), default: `false`
+- `solargraph.formatting`: Enable document formatting, default: `false`
+- `solargraph.symbols`: Enable symbols, default: `true`
+- `solargraph.definitions`: Enable definitions (go to, etc.), default: `true`
+- `solargraph.rename`: Enable symbol renaming, default: `true`
+- `solargraph.references`: Enable finding references, default: `true`
+- `solargraph.folding`: Enable folding ranges, default: `true`
+- `solargraph.logLevel`: Level of debug info to log. `warn` is least and `debug` is most., default: `"warn"`
+  Valid options: ["warn","info","debug"]
 
 Use command `:CocConfig` to open config file.
 

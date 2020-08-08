@@ -88,65 +88,41 @@
         "solargraph.checkGemVersion": {
           "type": "boolean",
           "description": "Automatically check if a new version of the Solargraph gem is available.",
-          "default": true,
-          "enum": [
-            true,
-            false
-          ]
+          "default": true
         },
         "solargraph.completion": {
           "type": [
             "boolean"
           ],
           "description": "Enable completion",
-          "default": true,
-          "enum": [
-            true,
-            false
-          ]
+          "default": true
         },
         "solargraph.hover": {
           "type": [
             "boolean"
           ],
           "description": "Enable hover",
-          "default": true,
-          "enum": [
-            true,
-            false
-          ]
+          "default": true
         },
         "solargraph.diagnostics": {
           "type": [
             "boolean"
           ],
           "description": "Enable diagnostics",
-          "default": false,
-          "enum": [
-            true,
-            false
-          ]
+          "default": false
         },
         "solargraph.autoformat": {
           "type": [
             "boolean"
           ],
           "description": "Enable automatic formatting while typing (WARNING: experimental)",
-          "default": false,
-          "enum": [
-            true,
-            false
-          ]
+          "default": false
         },
         "solargraph.formatting": {
           "type": [
             "boolean"
           ],
           "description": "Enable document formatting",
-          "enum": [
-            true,
-            false
-          ],
           "default": false
         },
         "solargraph.symbols": {
@@ -154,10 +130,6 @@
             "boolean"
           ],
           "description": "Enable symbols",
-          "enum": [
-            true,
-            false
-          ],
           "default": true
         },
         "solargraph.definitions": {
@@ -165,10 +137,6 @@
             "boolean"
           ],
           "description": "Enable definitions (go to, etc.)",
-          "enum": [
-            true,
-            false
-          ],
           "default": true
         },
         "solargraph.rename": {
@@ -176,10 +144,6 @@
             "boolean"
           ],
           "description": "Enable symbol renaming",
-          "enum": [
-            true,
-            false
-          ],
           "default": true
         },
         "solargraph.references": {
@@ -187,10 +151,6 @@
             "boolean"
           ],
           "description": "Enable finding references",
-          "enum": [
-            true,
-            false
-          ],
           "default": true
         },
         "solargraph.folding": {
