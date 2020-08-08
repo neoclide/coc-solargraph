@@ -47,6 +47,26 @@ This extension contributes the following settings:
 
 Use command `:CocConfig` to open config file.
 
+## Transport Options
+
+Extension version 1.0.0 introduces the `solargraph.transport` setting with the following options:
+
+- `socket`: Run a TCP server. This is the default option.
+- `stdio`: Run a STDIO server.
+- `external`: Connect to an external server instead of starting a new one.
+
+Most users should use the default `socket` option or switch to `stdio` in case of network issues.
+
+The `external` option is intended for cases where the project is hosted in a different environment from the editor,
+such as a docker container or a remote server. Users can opt to run a socket server in the remote environment and connect
+to it via TCP. Example configuration:
+
+    "solargraph.transport": "external",
+    "solargraph.externalServer": {
+        "host": "localhost",
+        "port": 7658
+    }
+
 ## Documenting Your Code
 
 Using [YARD](http://www.rubydoc.info/gems/yard/file/docs/GettingStarted.md) for inline documentation is highly recommended.
