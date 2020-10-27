@@ -211,13 +211,10 @@
   "author": "chemzqm@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "@chemzqm/tsconfig": "^0.0.3",
-    "@chemzqm/tslint-config": "^1.0.18",
     "@types/node": "^13.7.1",
     "coc.nvim": "^0.0.74",
     "rimraf": "^3.0.2",
     "ts-loader": "^6.2.1",
-    "tslint": "^6.0.0",
     "typescript": "^3.7.5",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
