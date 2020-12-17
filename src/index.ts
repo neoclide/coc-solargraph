@@ -1,9 +1,7 @@
-import { commands, ExtensionContext, LanguageClient, workspace, services } from 'coc.nvim'
-import { Disposable } from 'vscode-languageserver-protocol'
-import { makeLanguageClient } from './language-client'
-import { createConfig, downloadCore, verifyGemIsCurrent } from './util'
-import SolargraphDocumentProvider from './SolargraphDocumentProvider'
+import { commands, Disposable, ExtensionContext, LanguageClient, services, window, workspace } from 'coc.nvim'
 import * as solargraph from 'solargraph-utils'
+import { makeLanguageClient } from './language-client'
+import SolargraphDocumentProvider from './SolargraphDocumentProvider'
 
 export async function activate(context: ExtensionContext): Promise<void> {
   let { subscriptions } = context
@@ -38,19 +36,19 @@ export async function activate(context: ExtensionContext): Promise<void> {
       if (!config.promptDownload) return
       if (err.toString().includes('ENOENT') || err.toString().includes('command not found')) {
         // tslint:disable-next-line: no-floating-promises
-        workspace.showPrompt('Solargraph gem not found. Run `gem install solargraph` or update your Gemfile., Install Now?').then(approved => {
+        window.showPrompt('Solargraph gem not found. Run `gem install solargraph` or update your Gemfile., Install Now?').then(approved => {
           if (approved) {
             solargraph.installGem(solargraphConfiguration).then(() => {
-              workspace.showMessage('Successfully installed the Solargraph gem.')
+              window.showMessage('Successfully installed the Solargraph gem.')
               if (disposableClient) disposableClient.dispose()
               startLanguageServer()
             }).catch(() => {
-              workspace.showMessage('Failed to install the Solargraph gem.', 'error')
+              window.showMessage('Failed to install the Solargraph gem.', 'error')
             })
           }
         })
       } else {
-        workspace.showMessage("Failed to start Solargraph: " + err, 'error')
+        window.showMessage("Failed to start Solargraph: " + err, 'error')
       }
     })
     languageClient.start()
@@ -85,14 +83,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   // Build gem documentation command
   let disposableBuildGemDocs = commands.registerCommand('solargraph.buildGemDocs', () => {
-    let prepareStatus = workspace.createStatusBarItem(10, { progress: true })
+    let prepareStatus = window.createStatusBarItem(10, { progress: true })
     prepareStatus.text = 'Building new gem documentation...'
     languageClient.sendRequest('$/solargraph/documentGems', { rebuild: false }).then(response => {
       prepareStatus.dispose()
       if (response['status'] == 'ok') {
-        workspace.showMessage('Gem documentation complete.', 'more')
+        window.showMessage('Gem documentation complete.', 'more')
       } else {
-        workspace.showMessage('An error occurred building gem documentation.', 'error')
+        window.showMessage('An error occurred building gem documentation.', 'error')
         // tslint:disable-next-line: no-console
         console.log(response)
       }
@@ -102,14 +100,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   // Rebuild gems documentation command
   let disposableRebuildAllGemDocs = commands.registerCommand('solargraph.rebuildAllGemDocs', () => {
-    let prepareStatus = workspace.createStatusBarItem(10, { progress: true })
+    let prepareStatus = window.createStatusBarItem(10, { progress: true })
     prepareStatus.text = 'Rebuilding all gem documentation...'
     languageClient.sendRequest('$/solargraph/documentGems', { rebuild: true }).then(response => {
       prepareStatus.dispose()
       if (response['status'] == 'ok') {
-        workspace.showMessage('Gem documentation complete.', 'more')
+        window.showMessage('Gem documentation complete.', 'more')
       } else {
-        workspace.showMessage('An error occurred rebuilding gem documentation.', 'error')
+        window.showMessage('An error occurred rebuilding gem documentation.', 'error')
         // tslint:disable-next-line: no-console
         console.log(response)
       }
@@ -122,9 +120,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
     let child = solargraph.commands.solargraphCommand(['config'], solargraphConfiguration)
     child.on('exit', code => {
       if (code == 0) {
-        workspace.showMessage('Created default .solargraph.yml file.')
+        window.showMessage('Created default .solargraph.yml file.')
       } else {
-        workspace.showMessage('Error creating .solargraph.yml file.', 'error')
+        window.showMessage('Error creating .solargraph.yml file.', 'error')
       }
     })
   })
@@ -135,7 +133,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     if (languageClient) {
       languageClient.sendNotification('$/solargraph/downloadCore')
     } else {
-      workspace.showMessage('Solargraph is still starting. Please try again in a moment.')
+      window.showMessage('Solargraph is still starting. Please try again in a moment.')
     }
   })
 

@@ -1,11 +1,11 @@
-import { workspace } from 'coc.nvim'
+import { window, workspace } from 'coc.nvim'
 
 export function verifyGemIsCurrent(): void {
   workspace.runCommand('gem outdated').then(res => {
     if (res.match(/[\s]solargraph[\s]/)) {
       notifyGemUpdate()
     } else {
-      workspace.showMessage('The Solargraph gem is up to date.', 'more')
+      window.showMessage('The Solargraph gem is up to date.', 'more')
     }
   }, _e => {
     // noop
@@ -24,7 +24,7 @@ export function createConfig(configuration: any): void {
   let cmd = getCommands(configuration, 'download-core')
   workspace.runCommand(cmd).then(res => {
     if (res) {
-      workspace.showMessage('Created default .solargraph.yml file.', 'more')
+      window.showMessage('Created default .solargraph.yml file.', 'more')
     }
   }, _e => {
     // noop
@@ -44,8 +44,8 @@ function getCommands(configuration: any, ...args: string[]): string {
 
 function notifyGemUpdate(): void {
   if (workspace.getConfiguration('solargraph').useBundler) {
-    workspace.showMessage('A new version of the Solargraph gem is available. Update your Gemfile to install it.', 'more')
+    window.showMessage('A new version of the Solargraph gem is available. Update your Gemfile to install it.', 'more')
   } else {
-    workspace.showMessage('A new version of the Solargraph gem is available. Run `gem update solargraph` to install it.', 'more')
+    window.showMessage('A new version of the Solargraph gem is available. Run `gem update solargraph` to install it.', 'more')
   }
 }

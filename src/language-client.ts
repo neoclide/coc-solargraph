@@ -1,12 +1,10 @@
-import { LanguageClient, LanguageClientOptions, Middleware, ProvideCompletionItemsSignature, ProviderResult, ServerOptions, workspace } from 'coc.nvim'
+import { CompletionItem, CompletionList, Position, TextDocument, CancellationToken, CompletionContext, LanguageClient, LanguageClientOptions, Middleware, ProvideCompletionItemsSignature, ProviderResult, ServerOptions, window, workspace } from 'coc.nvim'
 import net from 'net'
 import * as solargraph from 'solargraph-utils'
-import { CancellationToken, CompletionContext } from 'vscode-languageserver-protocol'
-import { CompletionItem, CompletionList, Position, TextDocument } from 'vscode-languageserver-types'
 
 // export function makeLanguageClient(socketProvider: solargraph.SocketProvider): LanguageClient {
 export function makeLanguageClient(configuration: solargraph.Configuration): LanguageClient {
-  let prepareStatus = workspace.createStatusBarItem(10, { progress: true })
+  let prepareStatus = window.createStatusBarItem(10, { progress: true })
   prepareStatus.show()
 
   let middleware: Middleware = {
@@ -109,14 +107,14 @@ export function makeLanguageClient(configuration: solargraph.Configuration): Lan
   client.onReady().then(() => {
     clearInterval(interval)
     prepareStatus.dispose()
-    workspace.showMessage('Solargraph is ready.', 'more')
+    window.showMessage('Solargraph is ready.', 'more')
     // if (vscode.workspace.getConfiguration('solargraph').checkGemVersion) {
     // 	client.sendNotification('$/solargraph/checkGemVersion')
     // }
   }).catch(() => {
     clearInterval(interval)
     prepareStatus.dispose()
-    workspace.showMessage('Solargraph failed to initialize.', 'error')
+    window.showMessage('Solargraph failed to initialize.', 'error')
   })
   return client
 }

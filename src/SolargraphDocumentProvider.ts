@@ -1,9 +1,7 @@
-import querystring from 'querystring'
-import { Uri, workspace, LanguageClient, ProviderResult } from 'coc.nvim'
-import { CancellationToken } from 'vscode-jsonrpc'
-import TurndownService from 'turndown'
+import { Uri, workspace, CancellationToken, LanguageClient, ProviderResult } from 'coc.nvim'
+import marked from 'marked'
 
-const turndownService = new TurndownService()
+marked.setOptions({})
 
 export default class SolargraphDocumentProvider {
   private docs: { [uri: string]: string }
@@ -30,12 +28,13 @@ export default class SolargraphDocumentProvider {
       let method = '$/solargraph' + uri.path
       let query = this.parseQuery(uri.query.replace(/=/g, '%3D').replace(/\%$/, '%25').replace(/query\%3D/, 'query='))
       this.languageClient
-        .sendRequest(method, { query: query.query })
+        .sendRequest(method, { query: query.query }, token)
         .then((result: any) => {
           workspace.nvim.command('setfiletype markdown', true)
           if (result && result.content) {
             let content = result.content.replace(/solargraph:\//g, 'solargraph:///')
-            let markdown = turndownService.turndown(content)
+            let markdown = marked(content)
+            // turndownService.turndown(content)
             this.docs[key] = markdown
             resolve(markdown)
           } else {
