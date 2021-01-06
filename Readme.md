@@ -8,6 +8,13 @@ Note: solargraph uri `solargraph:/` should be `solargraph:///` to open with vim.
 Note: solargraph scheme returns html, but vim doesn't handle html, so it's
 converted to markdown.
 
+## Supporting
+
+If you like my extension, consider supporting me on Patreon or PayPal:
+
+<a href="https://www.patreon.com/chemzqm"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Patreon donate button" /> </a>
+<a href="https://www.paypal.com/paypalme/chezqm"><img src="https://werwolv.net/assets/paypal_banner.png" alt="PayPal donate button" /> </a>
+
 ## Install
 
 Install solargraph by:
