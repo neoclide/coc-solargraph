@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "publisher": "chemzqm",
   "engines": {
-    "coc": "^0.0.15"
+    "coc": "^0.0.80"
   },
   "keywords": [
     "coc.nvim",
@@ -210,7 +210,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.12.0",
-    "coc.nvim": "^0.0.79-next.15",
+    "coc.nvim": "^0.0.80",
     "esbuild": "^0.8.29",
     "marked": "^1.2.7",
     "solargraph-utils": "^1.1.0",

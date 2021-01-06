@@ -111,10 +111,10 @@ cheerio@0.22.0:
     lodash.reject "^4.4.0"
     lodash.some "^4.4.0"
 
-coc.nvim@^0.0.79-next.15:
-  version "0.0.79-next.15"
-  resolved "https://registry.yarnpkg.com/coc.nvim/-/coc.nvim-0.0.79-next.15.tgz#6db02e3b6d40a1e2c78205662d98273c7e934df1"
-  integrity sha512-3ZFJNwMbcZQIDUuoYwYHbOP3tguNHJboraYtymL4R3xj6SePaEurMoapLkzRExviRivt/a3ihWNG4KxMMZ9CCQ==
+coc.nvim@^0.0.80:
+  version "0.0.80"
+  resolved "https://registry.yarnpkg.com/coc.nvim/-/coc.nvim-0.0.80.tgz#785145c382660db03f517f9b497900d95cbd0e4f"
+  integrity sha512-/3vTcnofoAYMrdENrlQmADTzfXX4+PZ0fiM10a39UA37dTR2dpIGi9O469kcIksuunLjToqWG8S45AGx/9wV7g==
 
 color-convert@^1.9.0:
   version "1.9.3"
