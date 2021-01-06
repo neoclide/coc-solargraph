@@ -10,10 +10,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
   if (enable === false) return
 
   let applyConfiguration = (_config: solargraph.Configuration) => {
-    _config.commandPath = config.commandPath || 'solargraph'
+    _config.commandPath = config.commandPath ? workspace.expand(config.commandPath) : 'solargraph'
     _config.useBundler = config.useBundler || false
-    _config.bundlerPath = config.bundlerPath?.replace('~', process.env.HOME) || 'bundle'
-    _config.viewsPath = context.extensionPath + '/views'
+    _config.bundlerPath = config.bundlerPath ? workspace.expand(config.bundlerPath) : 'bundle'
+    _config.viewsPath = context.asAbsolutePath('views')
     _config.withSnippets = config.withSnippets || false
     _config.workspace = workspace.rootPath || null
   }
@@ -136,6 +136,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       window.showMessage('Solargraph is still starting. Please try again in a moment.')
     }
   })
+  context.subscriptions.push(disposableSolargraphDownloadCore)
 
   startLanguageServer()
 }
