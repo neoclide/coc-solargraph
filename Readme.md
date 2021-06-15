@@ -3,7 +3,8 @@
 Ruby language server extension using [solargraph](http://solargraph.org/)
 for [coc.nvim](https://github.com/neoclide/coc.nvim).
 
-Note: solargraph uri `solargraph:/` should be `solargraph:///` to open with vim.
+Note: remember use `fnameescape()` for solargraph uri (`solargraph:/`) to open
+it by vim command.
 
 Note: solargraph scheme returns html, but vim doesn't handle html, so it's
 converted to markdown.
