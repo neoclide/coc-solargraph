@@ -1,7 +1,7 @@
 import { Uri, workspace, CancellationToken, LanguageClient, ProviderResult } from 'coc.nvim'
-import marked from 'marked'
+import TurndownService from 'turndown'
 
-marked.setOptions({})
+const turndownService = new TurndownService()
 
 export default class SolargraphDocumentProvider {
   private docs: { [uri: string]: string }
@@ -32,11 +32,10 @@ export default class SolargraphDocumentProvider {
         .then((result: any) => {
           workspace.nvim.command('setfiletype markdown', true)
           if (result && result.content) {
-            let content = result.content.replace(/solargraph:\//g, 'solargraph:///')
-            let markdown = marked(content)
+            const content = turndownService.turndown(result.content)
             // turndownService.turndown(content)
-            this.docs[key] = markdown
-            resolve(markdown)
+            this.docs[key] = content
+            resolve(content)
           } else {
             this.docs[key] = ''
             resolve('')
