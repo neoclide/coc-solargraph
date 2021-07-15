@@ -23,6 +23,15 @@
     "onCommand:solargraph.downloadCore"
   ],
   "contributes": {
+    "rootPatterns": [
+      {
+        "filetype": "ruby",
+        "patterns": [
+          ".solargraph.yml",
+          "Gemfile"
+        ]
+      }
+    ],
     "configuration": {
       "title": "Solargraph settings for Ruby",
       "properties": {
