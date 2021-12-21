@@ -75,7 +75,7 @@ export function makeLanguageClient(configuration: solargraph.Configuration): Lan
         return new Promise((resolve, reject) => {
           let socketProvider: solargraph.SocketProvider = new solargraph.SocketProvider(configuration)
           socketProvider.start().then(() => {
-            let socket: net.Socket = net.createConnection(socketProvider.port)
+            let socket: net.Socket = net.createConnection(socketProvider.port, '127.0.0.1')
             resolve({
               reader: socket,
               writer: socket
