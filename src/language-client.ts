@@ -18,7 +18,7 @@ export function makeLanguageClient(configuration: solargraph.Configuration): Lan
     ): ProviderResult<CompletionItem[] | CompletionList> => {
       return Promise.resolve(next(document, position, context, token)).then((res: CompletionItem[] | CompletionList) => {
         let doc = workspace.getDocument(document.uri)
-        if (!doc) return []
+        if (!doc || !res) return []
         let items: CompletionItem[] = res.hasOwnProperty('isIncomplete') ? (res as CompletionList).items : res as CompletionItem[]
         let result: any = {
           isIncomplete: false,
