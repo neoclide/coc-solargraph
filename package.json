@@ -44,6 +44,11 @@
             "verbose"
           ]
         },
+        "solargraph.shell": {
+          "type": ["null", "string"],
+          "default": null,
+          "description": "Shell used to launch solargraph server"
+        },
         "solargraph.transport": {
           "type": "string",
           "default": "socket",
@@ -219,12 +224,11 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.12.0",
-    "coc.nvim": "^0.0.80",
+    "coc.nvim": "0.0.81-next.23",
     "esbuild": "^0.8.29",
-    "solargraph-utils": "^1.1.0",
-    "ts-loader": "^6.2.1",
+    "solargraph-utils": "^1.2.0",
     "tslib": "^1.10.0",
-    "typescript": "^4.1.3",
+    "typescript": "^4.6.3",
     "turndown": "^7.0.0",
     "which": "^2.0.2"
   },
