@@ -1,6 +1,6 @@
 {
   "name": "coc-solargraph",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Ruby languageserver extension for coc.nvim, using solargraph",
   "main": "lib/index.js",
   "publisher": "chemzqm",
@@ -45,7 +45,10 @@
           ]
         },
         "solargraph.shell": {
-          "type": ["null", "string"],
+          "type": [
+            "null",
+            "string"
+          ],
           "default": null,
           "description": "Shell used to launch solargraph server"
         },
