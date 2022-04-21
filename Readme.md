@@ -36,6 +36,8 @@ This extension contributes the following settings:
 
 - `solargraph.trace.server`: default: `"off"`
   Valid options: ["off","messages","verbose"]
+- `solargraph.shell`: The shell path used to launch solargraph server, default:
+  `null`
 - `solargraph.transport`: The type of transport to use., default: `"socket"`
   Valid options: ["socket","stdio","external"]
 - `solargraph.promptDownload`: Prompt for download solargraph gem when not found., default: `true`

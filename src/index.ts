@@ -3,19 +3,30 @@ import * as solargraph from 'solargraph-utils'
 import { makeLanguageClient } from './language-client'
 import SolargraphDocumentProvider from './SolargraphDocumentProvider'
 
+function isBare(str: String): boolean {
+  return ((str.search(/\//) == -1) && (str.search(/\\/) == -1))
+}
+
 export async function activate(context: ExtensionContext): Promise<void> {
-  let { subscriptions } = context
+  let { subscriptions, logger } = context
   const config = workspace.getConfiguration().get<any>('solargraph', {}) as any
   const enable = config.enable
   if (enable === false) return
 
   let applyConfiguration = (_config: solargraph.Configuration) => {
-    _config.commandPath = config.commandPath ? workspace.expand(config.commandPath) : 'solargraph'
+    if (!config.commandPath) {
+      _config.commandPath = 'solargraph'
+    } else if (isBare(config.commandPath)) {
+      _config.commandPath = config.commandPath
+    } else {
+      _config.commandPath = workspace.expand(config.commandPath)
+    }
     _config.useBundler = config.useBundler || false
     _config.bundlerPath = config.bundlerPath ? workspace.expand(config.bundlerPath) : 'bundle'
     _config.viewsPath = context.asAbsolutePath('views')
     _config.withSnippets = config.withSnippets || false
     _config.workspace = workspace.rootPath || null
+    if (config.shell) _config.shell = config.shell
   }
   let solargraphConfiguration = new solargraph.Configuration()
   applyConfiguration(solargraphConfiguration)
@@ -31,8 +42,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
         languageClient.sendNotification('$/solargraph/checkGemVersion', { verbose: false })
       }
     }).catch(err => {
-      // tslint:disable-next-line: no-console
-      console.log('Error starting Solargraph socket provider', err)
+      logger.error('Error starting Solargraph socket provider', err)
       if (!config.promptDownload) return
       if (err.toString().includes('ENOENT') || err.toString().includes('command not found')) {
         // tslint:disable-next-line: no-floating-promises
@@ -91,8 +101,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
         window.showMessage('Gem documentation complete.', 'more')
       } else {
         window.showMessage('An error occurred building gem documentation.', 'error')
-        // tslint:disable-next-line: no-console
-        console.log(response)
+        logger.error(response)
       }
     })
   })
@@ -108,8 +117,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
         window.showMessage('Gem documentation complete.', 'more')
       } else {
         window.showMessage('An error occurred rebuilding gem documentation.', 'error')
-        // tslint:disable-next-line: no-console
-        console.log(response)
+        logger.error(response)
       }
     })
   })
