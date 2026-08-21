@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title desc">
+  <title id="title">coc-solargraph logo</title>
+  <desc id="desc">A glowing sun surrounded by an orbital arc and a rising code graph.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#182b57"/>
+      <stop offset="1" stop-color="#07152f"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#fff7b2"/>
+      <stop offset="0.45" stop-color="#ffd166"/>
+      <stop offset="1" stop-color="#f47b4a"/>
+    </radialGradient>
+    <linearGradient id="orbit" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff9f68"/>
+      <stop offset="0.5" stop-color="#f9d976"/>
+      <stop offset="1" stop-color="#69e7d0"/>
+    </linearGradient>
+    <linearGradient id="graph" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#69e7d0"/>
+      <stop offset="1" stop-color="#9ee7ff"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="42%" r="50%">
+      <stop offset="0" stop-color="#ffd166" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ffd166" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#020817" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#background)"/>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#glow)"/>
+
+  <g fill="none" stroke="url(#orbit)" stroke-linecap="round" filter="url(#soft-shadow)">
+    <ellipse cx="128" cy="106" rx="72" ry="34" transform="rotate(-18 128 106)" stroke-width="7"/>
+    <path d="M 66 157 C 82 180 109 193 139 192" stroke-width="5" opacity="0.8"/>
+  </g>
+
+  <g stroke="#ffd166" stroke-linecap="round" stroke-width="6" opacity="0.9">
+    <path d="M 128 48 V 36"/>
+    <path d="M 88 61 L 80 52"/>
+    <path d="M 168 61 L 176 52"/>
+  </g>
+  <circle cx="128" cy="101" r="32" fill="url(#sun)" filter="url(#soft-shadow)"/>
+
+  <path d="M 57 192 L 91 166 L 119 178 L 153 145 L 181 157 L 205 119"
+        fill="none" stroke="#07152f" stroke-linecap="round" stroke-linejoin="round" stroke-width="17" opacity="0.6"/>
+  <path d="M 57 192 L 91 166 L 119 178 L 153 145 L 181 157 L 205 119"
+        fill="none" stroke="url(#graph)" stroke-linecap="round" stroke-linejoin="round" stroke-width="9"/>
+  <g fill="#d9fbff" stroke="#07152f" stroke-width="5">
+    <circle cx="57" cy="192" r="7"/>
+    <circle cx="91" cy="166" r="7"/>
+    <circle cx="119" cy="178" r="7"/>
+    <circle cx="153" cy="145" r="7"/>
+    <circle cx="181" cy="157" r="7"/>
+    <circle cx="205" cy="119" r="7"/>
+  </g>
+</svg>

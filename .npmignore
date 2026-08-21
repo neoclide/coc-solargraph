@@ -2,3 +2,6 @@ src
 tsconfig.json
 tslint.json
 *.map
+AGENTS.md
+test
+esbuild.js

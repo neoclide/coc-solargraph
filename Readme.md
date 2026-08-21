@@ -1,6 +1,10 @@
 # coc-solargraph
 
-[![Test](https://github.com/neoclide/coc-solargraph/actions/workflows/test.yml/badge.svg)](https://github.com/neoclide/coc-solargraph/actions/workflows/test.yml)
+<p align="center">
+  <img src="assets/coc-solargraph.svg" alt="coc-solargraph logo" width="160">
+</p>
+
+[![CI](https://github.com/neoclide/coc-solargraph/actions/workflows/ci.yml/badge.svg)](https://github.com/neoclide/coc-solargraph/actions/workflows/ci.yml)
 
 Ruby language server extension using [solargraph](http://solargraph.org/)
 for [coc.nvim](https://github.com/neoclide/coc.nvim).

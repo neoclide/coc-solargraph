@@ -78,7 +78,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     context.subscriptions.push(disposableClient)
   }
 
-  const restartLanguageServer = (notify = true) => {
+  const restartLanguageServer = async (notify = true): Promise<void> => {
+    if (languageClient?.needsStop()) await languageClient.stop()
     if (disposableClient) disposableClient.dispose()
     startLanguageServer()
     if (notify) window.showMessage('Solargraph server restarted.', 'more')
@@ -89,7 +90,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   // Search command
   let disposableSearch = commands.registerCommand('solargraph.search', async () => {
     let { nvim } = workspace
-    let search = await nvim.call('input', ['Search:', ''])
+    let search = await nvim.call('input', ['Search:', '']) as string
     nvim.command('normal! :<C-u>', true)
     if (!search) return
     let uri = 'solargraph:///search?query=' + encodeURIComponent(search)

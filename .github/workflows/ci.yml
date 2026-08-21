@@ -1,4 +1,4 @@
-name: Test
+name: CI
 
 on:
   push:
@@ -17,10 +17,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: yarn
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - name: Install Solargraph
+        run: |
+          gem install solargraph --no-document
+          solargraph --version
       - name: Install editors
         run: sudo apt-get update && sudo apt-get install -y neovim vim
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
       - name: Run integration tests
-        run: yarn run test:integration:${{ matrix.editor }}
+        run: npm run test:integration:${{ matrix.editor }}

@@ -237,34 +237,36 @@
   "coc-test": {
     "entryFile": "src/index.ts",
     "user-settings": {
-      "solargraph.commandPath": "${workspaceFolder}/test/fixtures/solargraph",
+      "solargraph.commandPath": "solargraph",
       "solargraph.transport": "stdio",
-      "solargraph.checkGemVersion": true,
-      "solargraph.completion": false,
-      "solargraph.hover": false,
-      "solargraph.diagnostics": true,
-      "solargraph.autoformat": true,
-      "solargraph.formatting": true,
-      "solargraph.symbols": false,
-      "solargraph.definitions": false,
-      "solargraph.rename": false,
-      "solargraph.references": false,
-      "solargraph.folding": false,
-      "solargraph.logLevel": "debug"
+      "solargraph.checkGemVersion": false,
+      "solargraph.completion": true,
+      "solargraph.hover": true,
+      "solargraph.diagnostics": false,
+      "solargraph.autoformat": false,
+      "solargraph.formatting": false,
+      "solargraph.symbols": true,
+      "solargraph.definitions": true,
+      "solargraph.rename": true,
+      "solargraph.references": true,
+      "solargraph.folding": true,
+      "solargraph.logLevel": "warn"
     }
   },
   "author": "chemzqm@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^10.12.0",
+    "@types/node": "^22.19.0",
     "coc-test": "^0.1.8",
-    "coc.nvim": "0.0.81-next.23",
-    "esbuild": "^0.8.29",
-    "solargraph-utils": "^1.2.0",
+    "coc.nvim": "0.0.83-next.26",
+    "esbuild": "^0.28.2",
+    "solargraph-utils": "^1.3.0",
     "tslib": "^1.10.0",
     "turndown": "^7.0.0",
-    "typescript": "^4.6.3",
-    "which": "^2.0.2"
+    "typescript": "^6.0.3",
+    "which": "^7.0.0"
   },
-  "dependencies": {}
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
 }
