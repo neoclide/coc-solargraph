@@ -36,10 +36,10 @@ This extension contributes the following settings:
 - `solargraph.transport`: The type of transport to use., default: `"socket"`
   Valid options: ["socket","stdio","external"]
 - `solargraph.promptDownload`: Prompt for download solargraph gem when not found., default: `true`
-- `solargraph.externalServer`: The host and port to use for external transports. (Ignored for stdio and socket transports.), default: `{"host":"localhost","port":7658}`
-- `solargraph.commandPath`: Path to the solargraph command. Set this to an absolute path to select from multiple installed Ruby versions., default: `"solargraph"`
+- `solargraph.externalServer`: The host and port to use for external transports. (Ignored for stdio and socket transports.), default: `{"host":"localhost","port":7658}`. The port may be configured as either a number or a numeric string.
+- `solargraph.commandPath`: Path to the solargraph command. Set this to an absolute path to select from multiple installed Ruby versions., default: `"solargraph"`. This setting is resource-scoped.
 - `solargraph.useBundler`: Use `bundle exec` to run solargraph. (If this is true, the solargraph.commandPath setting is ignored.), default: `false`
-- `solargraph.bundlerPath`: Path to the bundle executable, defaults to 'bundle', default: `"bundle"`
+- `solargraph.bundlerPath`: Path to the bundle executable, defaults to 'bundle', default: `"bundle"`. This setting is resource-scoped.
 - `solargraph.checkGemVersion`: Automatically check if a new version of the Solargraph gem is available., default: `true`
 - `solargraph.completion`: Enable completion, default: `true`
 - `solargraph.hover`: Enable hover, default: `true`
@@ -68,12 +68,20 @@ Most users should use the default `socket` option or switch to `stdio` in case o
 
 The `external` option is intended for cases where the project is hosted in a different environment from the editor,
 such as a docker container or a remote server. Users can opt to run a socket server in the remote environment and connect
-to it via TCP. Example configuration:
+to it via TCP. The extension waits for the socket's `connect` event before handing the connection to the language client.
+If the connection fails, Coc prompts you to try again. Example configuration:
 
     "solargraph.transport": "external",
     "solargraph.externalServer": {
         "host": "localhost",
         "port": 7658
+    }
+
+The port can also be provided as a string when the configuration is generated or supplied by another tool:
+
+    "solargraph.externalServer": {
+        "host": "localhost",
+        "port": "7658"
     }
 
 ## Documenting Your Code
@@ -122,7 +130,17 @@ Use a .rubocop.yml file in your project's root folder to customize the linting r
 ## Restarting Solargraph
 
 Some changes you make to a project, such as updating the Gemfile, might require you to restart the Solargraph server.
-Instead of reloading restart vim, you can restart coc.nvim by `:CocRestart`.
+Run the following command to restart only the Solargraph language server:
+
+    :CocCommand solargraph.restart
+
+The restart command disposes of the current language client and starts a new one using the current configuration.
+The server can request the same lifecycle operation by sending the `$/solargraph/restart` notification; this
+notification triggers a silent client restart without showing a duplicate user message.
+
+Documentation pages opened through commands such as `solargraph.search` and `solargraph.environment` continue to
+use Coc's existing `solargraph` text document content provider. Cached documentation remains associated with that
+provider when the language client is restarted.
 
 ## Project Configuration
 
