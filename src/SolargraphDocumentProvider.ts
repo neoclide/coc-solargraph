@@ -10,6 +10,10 @@ export default class SolargraphDocumentProvider {
     this.docs = {}
   }
 
+  public setLanguageClient(languageClient: LanguageClient): void {
+    this.languageClient = languageClient
+  }
+
   public updateAll(): void {
     Object.keys(this.docs).forEach(uri => {
       this.update(uri)

@@ -1,4 +1,4 @@
-import { CompletionItem, CompletionList, Position, TextDocument, CancellationToken, CompletionContext, LanguageClient, LanguageClientOptions, Middleware, ProvideCompletionItemsSignature, ProviderResult, ServerOptions, window, workspace } from 'coc.nvim'
+import { CancellationToken, CompletionContext, CompletionItem, CompletionList, LanguageClient, LanguageClientOptions, LinesTextDocument, Middleware, Position, ProvideCompletionItemsSignature, ProviderResult, ServerOptions, window, workspace } from 'coc.nvim'
 import net from 'net'
 import * as solargraph from 'solargraph-utils'
 
@@ -10,7 +10,7 @@ export function makeLanguageClient(configuration: solargraph.Configuration): Lan
   let middleware: Middleware = {
     // fix completeItem
     provideCompletionItem: (
-      document: TextDocument,
+      document: LinesTextDocument,
       position: Position,
       context: CompletionContext,
       token: CancellationToken,
@@ -86,15 +86,33 @@ export function makeLanguageClient(configuration: solargraph.Configuration): Lan
         })
       }
     } else {
-      return () => {
-        return new Promise(resolve => {
-          let socket: net.Socket = net.createConnection({ host: workspace.getConfiguration('solargraph').externalServer.host, port: workspace.getConfiguration('solargraph').externalServer.port })
-          resolve({
-            reader: socket,
-            writer: socket
+      let getSocket = (): Promise<net.Socket> => {
+        return new Promise((resolve, reject) => {
+          let external = workspace.getConfiguration('solargraph').externalServer
+          let socket: net.Socket = net.createConnection({
+            host: external.host,
+            port: parseInt(external.port, 10)
+          })
+          let errorHandler = (err: Error) => reject(err)
+          socket.once('connect', () => {
+            socket.removeListener('error', errorHandler)
+            resolve(socket)
+          })
+          socket.once('error', errorHandler)
+        })
+      }
+      let getSocketOrNotifyUser = (): Promise<net.Socket> => {
+        return getSocket().catch(err => {
+          return window.showWarningMessage(
+            `Failed to connect to the external language client: ${err.message}`,
+            'Try again'
+          ).then(item => {
+            if (item === 'Try again') return getSocketOrNotifyUser()
+            throw err
           })
         })
       }
+      return () => getSocketOrNotifyUser().then(socket => ({ reader: socket, writer: socket }))
     }
   }
 

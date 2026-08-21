@@ -9,11 +9,12 @@ function isBare(str: String): boolean {
 
 export async function activate(context: ExtensionContext): Promise<void> {
   let { subscriptions, logger } = context
-  const config = workspace.getConfiguration().get<any>('solargraph', {}) as any
-  const enable = config.enable
+  const getConfig = (): any => workspace.getConfiguration().get<any>('solargraph', {}) as any
+  const enable = getConfig().enable
   if (enable === false) return
 
   let applyConfiguration = (_config: solargraph.Configuration) => {
+    const config = getConfig()
     if (!config.commandPath) {
       _config.commandPath = 'solargraph'
     } else if (isBare(config.commandPath)) {
@@ -33,16 +34,27 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   let languageClient: LanguageClient
   let disposableClient: Disposable
+  let documentProvider: SolargraphDocumentProvider
 
   const startLanguageServer = () => {
-    languageClient = makeLanguageClient(solargraphConfiguration)
-    languageClient.onReady().then(() => {
-      subscriptions.push(workspace.registerTextDocumentContentProvider('solargraph', new SolargraphDocumentProvider(languageClient)))
+    applyConfiguration(solargraphConfiguration)
+    const client = makeLanguageClient(solargraphConfiguration)
+    languageClient = client
+    if (documentProvider) documentProvider.setLanguageClient(client)
+    client.onReady().then(() => {
+      if (client !== languageClient) return
+      if (!documentProvider) {
+        documentProvider = new SolargraphDocumentProvider(client)
+        subscriptions.push(workspace.registerTextDocumentContentProvider('solargraph', documentProvider))
+      }
+      client.onNotification('$/solargraph/restart', () => restartLanguageServer(false))
       if (workspace.getConfiguration('solargraph').checkGemVersion) {
-        languageClient.sendNotification('$/solargraph/checkGemVersion', { verbose: false })
+        client.sendNotification('$/solargraph/checkGemVersion', { verbose: false })
       }
     }).catch(err => {
+      if (client !== languageClient) return
       logger.error('Error starting Solargraph socket provider', err)
+      const config = getConfig()
       if (!config.promptDownload) return
       if (err.toString().includes('ENOENT') || err.toString().includes('command not found')) {
         // tslint:disable-next-line: no-floating-promises
@@ -65,6 +77,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
     disposableClient = services.registLanguageClient(languageClient)
     context.subscriptions.push(disposableClient)
   }
+
+  const restartLanguageServer = (notify = true) => {
+    if (disposableClient) disposableClient.dispose()
+    startLanguageServer()
+    if (notify) window.showMessage('Solargraph server restarted.', 'more')
+  }
+
+  context.subscriptions.push(commands.registerCommand('solargraph.restart', restartLanguageServer))
 
   // Search command
   let disposableSearch = commands.registerCommand('solargraph.search', async () => {

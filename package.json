@@ -13,7 +13,11 @@
     "ruby"
   ],
   "scripts": {
-    "prepare": "node esbuild.js"
+    "prepare": "node esbuild.js",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "coc-test --nvim \"test/**/*.test.ts\"",
+    "test:integration:nvim": "coc-test --nvim \"test/**/*.test.ts\"",
+    "test:integration:vim": "coc-test --vim \"test/**/*.test.ts\""
   },
   "activationEvents": [
     "onLanguage:ruby",
@@ -88,7 +92,8 @@
         "solargraph.commandPath": {
           "type": "string",
           "default": "solargraph",
-          "description": "Path to the solargraph command.  Set this to an absolute path to select from multiple installed Ruby versions."
+          "description": "Path to the solargraph command.  Set this to an absolute path to select from multiple installed Ruby versions.",
+          "scope": "resource"
         },
         "solargraph.useBundler": {
           "type": "boolean",
@@ -98,7 +103,8 @@
         "solargraph.bundlerPath": {
           "type": "string",
           "description": "Path to the bundle executable, defaults to 'bundle'",
-          "default": "bundle"
+          "default": "bundle",
+          "scope": "resource"
         },
         "solargraph.checkGemVersion": {
           "type": "boolean",
@@ -192,6 +198,11 @@
         "category": "Solargraph"
       },
       {
+        "command": "solargraph.restart",
+        "title": "Restart Solargraph",
+        "category": "Solargraph"
+      },
+      {
         "command": "solargraph.config",
         "title": "Create a Solargraph config file",
         "category": "Solargraph"
@@ -223,16 +234,36 @@
       }
     ]
   },
+  "coc-test": {
+    "entryFile": "src/index.ts",
+    "user-settings": {
+      "solargraph.commandPath": "${workspaceFolder}/test/fixtures/solargraph",
+      "solargraph.transport": "stdio",
+      "solargraph.checkGemVersion": true,
+      "solargraph.completion": false,
+      "solargraph.hover": false,
+      "solargraph.diagnostics": true,
+      "solargraph.autoformat": true,
+      "solargraph.formatting": true,
+      "solargraph.symbols": false,
+      "solargraph.definitions": false,
+      "solargraph.rename": false,
+      "solargraph.references": false,
+      "solargraph.folding": false,
+      "solargraph.logLevel": "debug"
+    }
+  },
   "author": "chemzqm@gmail.com",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.12.0",
+    "coc-test": "^0.1.8",
     "coc.nvim": "0.0.81-next.23",
     "esbuild": "^0.8.29",
     "solargraph-utils": "^1.2.0",
     "tslib": "^1.10.0",
-    "typescript": "^4.6.3",
     "turndown": "^7.0.0",
+    "typescript": "^4.6.3",
     "which": "^2.0.2"
   },
   "dependencies": {}
