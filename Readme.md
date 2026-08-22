@@ -40,7 +40,7 @@ This extension contributes the following settings:
 - `solargraph.transport`: The type of transport to use., default: `"socket"`
   Valid options: ["socket","stdio","external"]
 - `solargraph.promptDownload`: Prompt for download solargraph gem when not found., default: `true`
-- `solargraph.externalServer`: The host and port to use for external transports. (Ignored for stdio and socket transports.), default: `{"host":"localhost","port":7658}`. The port may be configured as either a number or a numeric string.
+- `solargraph.externalServer`: The host and port to use for external transports. (Ignored for stdio and socket transports.), default: `{"host":"127.0.0.1","port":7658}`. The port may be configured as either a number or a numeric string.
 - `solargraph.commandPath`: Path to the solargraph command. Set this to an absolute path to select from multiple installed Ruby versions., default: `"solargraph"`. This setting is resource-scoped.
 - `solargraph.useBundler`: Use `bundle exec` to run solargraph. (If this is true, the solargraph.commandPath setting is ignored.), default: `false`
 - `solargraph.bundlerPath`: Path to the bundle executable, defaults to 'bundle', default: `"bundle"`. This setting is resource-scoped.
@@ -77,7 +77,7 @@ If the connection fails, Coc prompts you to try again. Example configuration:
 
     "solargraph.transport": "external",
     "solargraph.externalServer": {
-        "host": "localhost",
+        "host": "127.0.0.1",
         "port": 7658
     }
 

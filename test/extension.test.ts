@@ -28,6 +28,7 @@ describe('coc-solargraph integration', { concurrency: false }, () => {
   it('uses deterministic settings for the real Solargraph server', () => {
     const config = workspace.getConfiguration('solargraph')
     assert.equal(config.get('transport'), 'stdio')
+    assert.deepEqual(config.get('externalServer'), { host: '127.0.0.1', port: 7658 })
     assert.equal(config.get('commandPath'), 'solargraph')
     assert.equal(config.get('useBundler'), false)
     assert.equal(config.get('checkGemVersion'), false)

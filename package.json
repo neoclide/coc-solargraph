@@ -77,7 +77,7 @@
           "properties": {
             "host": {
               "type": "string",
-              "default": "localhost"
+              "default": "127.0.0.1"
             },
             "port": {
               "type": "integer",
@@ -85,7 +85,7 @@
             }
           },
           "default": {
-            "host": "localhost",
+            "host": "127.0.0.1",
             "port": 7658
           }
         },
