@@ -4,6 +4,10 @@
   "description": "Ruby languageserver extension for coc.nvim, using solargraph",
   "main": "lib/index.js",
   "publisher": "chemzqm",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neoclide/coc-solargraph.git"
+  },
   "engines": {
     "coc": "^0.0.80"
   },
