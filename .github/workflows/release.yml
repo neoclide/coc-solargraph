@@ -57,9 +57,9 @@ jobs:
         run: |
           set -euo pipefail
 
-          archive="$(mktemp "${RUNNER_TEMP}/coc.nvim.release.tar.gz")"
-          coc_path="$(mktemp -d "${RUNNER_TEMP}/coc.nvim.release")"
-          trap 'rm -f "$archive"' EXIT
+          archive="$(mktemp "${RUNNER_TEMP}/coc.nvim.release.XXXXXX.tar.gz")"
+          coc_path="$(mktemp -d "${RUNNER_TEMP}/coc.nvim.release.XXXXXX")"
+          trap 'rm -f "$archive"; rm -rf "$coc_path"' EXIT
 
           curl --fail --location --retry 3 \
             --header "Accept: application/vnd.github+json" \
@@ -171,8 +171,8 @@ jobs:
             exit 1
           fi
 
-          release_notes="$(mktemp)"
-          updated_history="$(mktemp)"
+          release_notes="$(mktemp "${RUNNER_TEMP}/coc.solargraph.release-notes.XXXXXX")"
+          updated_history="$(mktemp "${RUNNER_TEMP}/coc.solargraph.history-update.XXXXXX")"
           git log --format='- %s (%h)' "$previous_tag..HEAD" > "$release_notes"
           if [[ -s history.md ]]; then
             first_line="$(head -n 1 history.md)"
