@@ -59,7 +59,6 @@ jobs:
 
           archive="$(mktemp "${RUNNER_TEMP}/coc.nvim.release.XXXXXX.tar.gz")"
           coc_path="$(mktemp -d "${RUNNER_TEMP}/coc.nvim.release.XXXXXX")"
-          trap 'rm -f "$archive"; rm -rf "$coc_path"' EXIT
 
           curl --fail --location --retry 3 \
             --header "Accept: application/vnd.github+json" \
