@@ -1,5 +1,16 @@
 # Change log
 
+## 1.3.1
+
+- avoud rm -rf (5cf24b8)
+- fix(release): use explicit mktemp templates (41849b9)
+- add repository to package.json (3ddcd17)
+- fix GITHUB_TOKEN not exists (a826b49)
+- fix release.yml avaid rate limited (c758ecc)
+- fix external server default host (6838ded)
+- fix release.yml (ecc1137)
+
+
 ## 1.3.0
 
 - Add the `solargraph.restart` command to restart only the Solargraph language server.
