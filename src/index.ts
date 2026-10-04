@@ -1,5 +1,5 @@
 import { commands, Disposable, ExtensionContext, LanguageClient, services, window, workspace } from 'coc.nvim'
-import * as solargraph from 'solargraph-utils'
+import * as solargraph from './solargraph'
 import { makeLanguageClient } from './language-client'
 import SolargraphDocumentProvider from './SolargraphDocumentProvider'
 
@@ -146,7 +146,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   // Solargraph configuration command
   let disposableSolargraphConfig = commands.registerCommand('solargraph.config', () => {
-    let child = solargraph.commands.solargraphCommand(['config'], solargraphConfiguration)
+    let child = solargraph.solargraphCommand(['config'], solargraphConfiguration)
     child.on('exit', code => {
       if (code == 0) {
         window.showMessage('Created default .solargraph.yml file.')
