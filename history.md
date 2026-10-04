@@ -1,5 +1,12 @@
 # Change log
 
+## 1.3.2
+
+- Merge pull request #74 from neoclide/codex/upstream-sync-20261003 (1e57a7c)
+- docs: preserve maintenance section heading hierarchy (f534d9b)
+- Add AGENTS.md (0d04c93)
+
+
 ## 1.3.1
 
 - avoud rm -rf (5cf24b8)
