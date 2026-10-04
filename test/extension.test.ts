@@ -110,6 +110,31 @@ describe('coc-solargraph integration', { concurrency: false }, () => {
     assert.equal(currentDocument.filetype, 'markdown')
   })
 
+  it('starts and restarts the real Solargraph socket server', async () => {
+    const config = workspace.getConfiguration('solargraph')
+    const originalTransport = config.get<string>('transport')
+    try {
+      await config.update('transport', 'socket', true)
+      const stdioClient = await waitForClientStarted()
+      await commands.executeCommand('solargraph.restart')
+      const socketClient = await waitForDifferentClient(stdioClient)
+      const uri = Uri.file(path.join(workspace.rootPath!, 'test', 'fixtures', 'sample.rb')).toString()
+      await openDocument(uri)
+      const symbols = await waitForDocumentSymbols(socketClient, uri)
+      assert.ok(symbols.some(symbol => symbol.name === 'Greeter'))
+
+      await commands.executeCommand('solargraph.restart')
+      const restartedClient = await waitForDifferentClient(socketClient)
+      const restartedSymbols = await waitForDocumentSymbols(restartedClient, uri)
+      assert.ok(restartedSymbols.some(symbol => symbol.name === 'Greeter'))
+    } finally {
+      await config.update('transport', originalTransport, true)
+      const currentClient = getClient()
+      await commands.executeCommand('solargraph.restart')
+      await waitForDifferentClient(currentClient)
+    }
+  })
+
   it('retries an external connection and handles a server restart notification', async () => {
     const config = workspace.getConfiguration('solargraph')
     const originalTransport = config.get<string>('transport')

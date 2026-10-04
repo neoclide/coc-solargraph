@@ -29,5 +29,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y neovim vim
       - name: Install dependencies
         run: npm ci
+      - name: Type check and run unit tests
+        run: npm run lint && npm run test:unit
       - name: Run integration tests
         run: npm run test:integration:${{ matrix.editor }}

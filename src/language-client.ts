@@ -1,8 +1,7 @@
 import { CancellationToken, CompletionContext, CompletionItem, CompletionList, LanguageClient, LanguageClientOptions, LinesTextDocument, Middleware, Position, ProvideCompletionItemsSignature, ProviderResult, ServerOptions, window, workspace } from 'coc.nvim'
 import net from 'net'
-import * as solargraph from 'solargraph-utils'
+import * as solargraph from './solargraph'
 
-// export function makeLanguageClient(socketProvider: solargraph.SocketProvider): LanguageClient {
 export function makeLanguageClient(configuration: solargraph.Configuration): LanguageClient {
   let prepareStatus = window.createStatusBarItem(10, { progress: true })
   prepareStatus.show()
@@ -54,7 +53,7 @@ export function makeLanguageClient(configuration: solargraph.Configuration): Lan
     if (transport == 'stdio') {
       return () => {
         return new Promise(resolve => {
-          let child = solargraph.commands.solargraphCommand(['stdio'], configuration)
+          let child = solargraph.solargraphCommand(['stdio'], configuration)
           child.on('error', err => {
             // tslint:disable-next-line: no-console
             console.error('Solargraph error:', err.message)
