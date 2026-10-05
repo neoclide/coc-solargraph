@@ -1,5 +1,10 @@
 # Change log
 
+## 1.3.3
+
+- Remove Axios dependency by replacing unused Solargraph utilities (#75) (75203d2)
+
+
 ## 1.3.2
 
 - Merge pull request #74 from neoclide/codex/upstream-sync-20261003 (1e57a7c)
