@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import net from 'node:net'
 import path from 'node:path'
-import { describe, it } from 'node:test'
+import { after, describe, it } from 'node:test'
 import { commands, services, Uri, window, workspace, type Document, type LanguageClient } from 'coc.nvim'
 
 const commandNames = [
@@ -16,6 +16,18 @@ const commandNames = [
 ]
 
 describe('coc-solargraph integration', { concurrency: false }, () => {
+  after(async () => {
+    try {
+      const client = getClient()
+      if (client?.needsStop()) await client.stop()
+    } catch {}
+    const handles = (process as any)._getActiveHandles()
+    for (const h of handles) {
+      if (h.spawnargs && !h.killed) {
+        try { h.kill('SIGTERM') } catch {}
+      }
+    }
+  })
   it('starts the real Solargraph stdio server and registers every command', async () => {
     const client = await waitForClientStarted()
     assert.equal(client.started, true)
@@ -193,6 +205,7 @@ class TestLanguageServer {
       this.server.once('error', reject)
       this.server.listen(port, '127.0.0.1', () => {
         this.server.removeListener('error', reject)
+        this.server.unref()
         resolve()
       })
     })
@@ -213,6 +226,7 @@ class TestLanguageServer {
   }
 
   private accept(socket: net.Socket): void {
+    socket.unref()
     this.connectionCount++
     this.sockets.add(socket)
     socket.on('close', () => this.sockets.delete(socket))
