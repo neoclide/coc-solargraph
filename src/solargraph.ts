@@ -69,8 +69,11 @@ export class SocketProvider {
         }
       })
       child.on('error', reject)
-      child.on('exit', code => {
-        if (!listening) reject(new Error(output || `Solargraph socket server exited with code ${code}`))
+      child.on('exit', (code, signal) => {
+        if (!listening) {
+          const detail = code !== null ? `code ${code}` : `signal ${signal}`
+          reject(new Error(output || `Solargraph socket server exited with ${detail}`))
+        }
       })
     })
   }

@@ -115,6 +115,7 @@ describe('coc-solargraph integration', { concurrency: false }, () => {
     const originalTransport = config.get<string>('transport')
     try {
       await config.update('transport', 'socket', true)
+      await waitForConfig('transport', 'socket')
       const stdioClient = await waitForClientStarted()
       await commands.executeCommand('solargraph.restart')
       const socketClient = await waitForDifferentClient(stdioClient)
@@ -129,6 +130,7 @@ describe('coc-solargraph integration', { concurrency: false }, () => {
       assert.ok(restartedSymbols.some(symbol => symbol.name === 'Greeter'))
     } finally {
       await config.update('transport', originalTransport, true)
+      await waitForConfig('transport', originalTransport)
       const currentClient = getClient()
       await commands.executeCommand('solargraph.restart')
       await waitForDifferentClient(currentClient)
@@ -147,6 +149,7 @@ describe('coc-solargraph integration', { concurrency: false }, () => {
     try {
       await config.update('transport', 'external', true)
       await config.update('externalServer', { host: '127.0.0.1', port }, true)
+      await waitForConfig('transport', 'external')
       ;(window as any).showWarningMessage = async (message: string, item: string): Promise<string> => {
         warningCount++
         assert.match(message, /Failed to connect to the external language client/)
@@ -171,6 +174,7 @@ describe('coc-solargraph integration', { concurrency: false }, () => {
       ;(window as any).showWarningMessage = originalShowWarningMessage
       await config.update('transport', originalTransport, true)
       await config.update('externalServer', originalExternalServer, true)
+      await waitForConfig('transport', originalTransport)
       const currentClient = getClient()
       await commands.executeCommand('solargraph.restart')
       await waitForDifferentClient(currentClient)
@@ -250,7 +254,10 @@ async function waitForClientStarted(timeoutMs = 30000): Promise<LanguageClient> 
   const started = Date.now()
   while (Date.now() - started < timeoutMs) {
     const client = getClient()
-    if (client.started) return client
+    if (client.started) {
+      await client.onReady()
+      return client
+    }
     await delay(100)
   }
   throw new Error('Solargraph language client did not start in time')
@@ -260,10 +267,22 @@ async function waitForDifferentClient(original: LanguageClient, timeoutMs = 3000
   const started = Date.now()
   while (Date.now() - started < timeoutMs) {
     const client = getClient()
-    if (client !== original && client.started) return client
+    if (client !== original && client.started) {
+      await client.onReady()
+      return client
+    }
     await delay(100)
   }
   throw new Error('Solargraph language client did not restart in time')
+}
+
+async function waitForConfig<T>(section: string, expected: T, timeoutMs = 5000): Promise<void> {
+  const started = Date.now()
+  while (Date.now() - started < timeoutMs) {
+    if (workspace.getConfiguration('solargraph').get<T>(section) === expected) return
+    await delay(20)
+  }
+  throw new Error(`Configuration solargraph.${section} did not update to ${expected} in time`)
 }
 
 async function waitForDocumentSymbols(client: LanguageClient, uri: string, timeoutMs = 30000): Promise<any[]> {

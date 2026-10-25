@@ -78,11 +78,17 @@ export async function activate(context: ExtensionContext): Promise<void> {
     context.subscriptions.push(disposableClient)
   }
 
-  const restartLanguageServer = async (notify = true): Promise<void> => {
-    if (languageClient?.needsStop()) await languageClient.stop()
-    if (disposableClient) disposableClient.dispose()
-    startLanguageServer()
-    if (notify) window.showMessage('Solargraph server restarted.', 'more')
+  let restartingPromise: Promise<void> = Promise.resolve()
+  const restartLanguageServer = (notify = true): Promise<void> => {
+    restartingPromise = restartingPromise.then(async () => {
+      if (languageClient?.needsStop()) await languageClient.stop()
+      if (disposableClient) disposableClient.dispose()
+      startLanguageServer()
+      if (notify) window.showMessage('Solargraph server restarted.', 'more')
+    }).catch(err => {
+      logger.error('Error during restartLanguageServer', err)
+    })
+    return restartingPromise
   }
 
   context.subscriptions.push(commands.registerCommand('solargraph.restart', restartLanguageServer))

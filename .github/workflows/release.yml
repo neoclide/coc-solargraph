@@ -72,6 +72,9 @@ jobs:
       - name: Build
         run: npm run prepare
 
+      - name: Type check and run unit tests
+        run: npm run lint && npm run test:unit
+
       - name: Test with Neovim
         run: npm run test:integration:nvim
 

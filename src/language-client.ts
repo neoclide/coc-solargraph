@@ -75,10 +75,15 @@ export function makeLanguageClient(configuration: solargraph.Configuration): Lan
           let socketProvider: solargraph.SocketProvider = new solargraph.SocketProvider(configuration)
           socketProvider.start().then(() => {
             let socket: net.Socket = net.createConnection(socketProvider.port, '127.0.0.1')
-            resolve({
-              reader: socket,
-              writer: socket
+            let errorHandler = (err: Error) => reject(err)
+            socket.once('connect', () => {
+              socket.removeListener('error', errorHandler)
+              resolve({
+                reader: socket,
+                writer: socket
+              })
             })
+            socket.once('error', errorHandler)
           }).catch(err => {
             reject(err)
           })
