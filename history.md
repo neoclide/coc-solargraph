@@ -1,5 +1,11 @@
 # Change log
 
+## 1.3.4
+
+- fix(test): cleanup active server handles and child processes on teardown (a27a368)
+- fix(test): stabilize socket transport restart and configuration synchronization (a198c3b)
+
+
 ## 1.3.3
 
 - Remove Axios dependency by replacing unused Solargraph utilities (#75) (75203d2)
